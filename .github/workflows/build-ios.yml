@@ -1,4 +1,4 @@
-name: Build iOS IPA
+name: Build PixelPulse iOS IPA
 
 on:
   workflow_dispatch:
@@ -8,28 +8,36 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Checkout code
+      # 1. Checkout your code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Python
+      # 2. Install Python
+      - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: '3.12'
 
+      # 3. Install Briefcase
       - name: Install Briefcase
         run: pip install briefcase
 
+      # 4. Create the iOS project
       - name: Create iOS project
         run: briefcase create iOS
 
-      - name: Build iOS app
+      # 5. Build the iOS app
+      - name: Build iOS project
         run: briefcase build iOS
 
+      # 6. Package the IPA
       - name: Package IPA
         run: briefcase package iOS
 
+      # 7. Upload IPA artifact
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
-          name: ios-app
-          path: pixelpulse/iOS/build/pixelpulse.ipa
+          name: pixelpulse-ipa
+          # Use the folder where Briefcase outputs the IPA
+          path: build/iOS/*.ipa
