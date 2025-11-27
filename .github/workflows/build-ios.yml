@@ -32,4 +32,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ios-app
-          path: app*/iOS/build/*.ipa
+          path: pixelpulse/iOS/build/pixelpulse.ipa
